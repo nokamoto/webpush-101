@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "protobuf/push_subscription.proto";
+import "protobuf/user.proto";
+
+message WebpushRequest {}
+
+message UserNotification {
+  repeated User user = 1;
+  WebpushRequest request = 2;
+}
+
+message UserSubscriptionNotification {
+  repeated UserSubscription subscription = 1;
+  WebpushRequest request = 2;
+}
+
+service WebpushService {
+  rpc SendUserNotification(UserNotification) returns (google.protobuf.Empty);
+  rpc SendUserSubscriptionNotification(UserSubscriptionNotification) returns (google.protobuf.Empty);
+}

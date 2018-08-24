@@ -2,12 +2,14 @@ version: 2
 jobs:
   build:
     docker:
-      - image: debian:stretch
+      - image: circleci/python:3.6.2-stretch-browsers
     steps:
       - checkout
       - run:
-          name: Greeting
-          command: echo Hello, world.
+          name: Install prototool
+          command:
+            curl -sSL https://github.com/uber/prototool/releases/download/v1.0.0/prototool-$(uname -s)-$(uname -m) -o ./prototool &&
+            chmod +x ./prototool
       - run:
-          name: Print the Current Time
-          command: date
+          name: Format protobuf - write a diff instead
+          command: ./prototool format -d protobuf

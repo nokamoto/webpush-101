@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "protobuf/user.proto";
+
+message PushSubscription {
+  string endpoint = 1;
+  string p256dh = 2;
+  string auth = 3;
+}
+
+message UserSubscription {
+  User user = 1;
+  repeated PushSubscription subscription = 2;
+}
+
+service PushSubscriptionService {
+  rpc Subscribe(UserSubscription) returns (google.protobuf.Empty);
+  rpc Unsubscribe(PushSubscription) returns (google.protobuf.Empty);
+  rpc Get(User) returns (stream PushSubscription);
+}

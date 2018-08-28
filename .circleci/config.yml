@@ -35,9 +35,38 @@ jobs:
             dep ensure -vendor-only=true &&
             go test ./webpush-go/push-subscription
 
+  "front-test":
+    docker:
+      - image: openjdk:8
+    steps:
+      - restore_cache:
+          key: sbt-cache
+      - checkout
+      - run:
+          name: Get sbt
+          command: 
+            curl -Ls https://git.io/sbt > ./sbt && 
+            chmod 0755 ./sbt
+          working_directory: webpush-scala/front
+      - run:
+          name: Format scala
+          command: ./sbt scalafmt::test test:scalafmt::test sbt:scalafmt::test
+          working_directory: webpush-scala/front
+      - run:
+          name: Run test
+          command: ./sbt test
+          working_directory: webpush-scala/front
+      - save_cache:
+          key: sbt-cache
+          paths:
+            - "~/.ivy2/cache"
+            - "~/.sbt"
+            - "~/.m2"
+
 workflows:
   version: 2
   build:
     jobs:
       - "protobuf"
       - "push-subscription-test"
+      - "front-test"

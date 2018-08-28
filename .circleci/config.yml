@@ -39,6 +39,8 @@ jobs:
     docker:
       - image: openjdk:8
     steps:
+      - restore_cache:
+          key: sbt-cache
       - checkout
       - run:
           name: Get sbt
@@ -54,6 +56,12 @@ jobs:
           name: Run test
           command: ./sbt test
           working_directory: webpush-scala/front
+      - save_cache:
+          key: sbt-cache
+          paths:
+            - "~/.ivy2/cache"
+            - "~/.sbt"
+            - "~/.m2"
 
 workflows:
   version: 2

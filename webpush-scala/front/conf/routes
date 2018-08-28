@@ -1,0 +1,7 @@
+GET   /                       controllers.WebpushApplication.index
+
+POST  /subscribe.json         controllers.WebpushApplication.subscribe
+POST  /test-subscription.json controllers.WebpushApplication.testSubscription
+
+GET   /app.js                 controllers.Assets.at(path = "/public", file = "javascripts/app.js")
+GET   /serviceworker.js       controllers.Assets.at(path = "/public", file = "javascripts/serviceworker.js")

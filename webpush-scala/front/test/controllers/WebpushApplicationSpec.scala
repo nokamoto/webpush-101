@@ -10,10 +10,37 @@ class WebpushApplicationSpec
     extends PlaySpec
     with GuiceOneAppPerTest
     with Results {
-  "WebpushApplication" should {
-    "be not implemented yet" in {
+  "WebpushApplication#index" should {
+    "return OK" in {
       val sut = app.injector.instanceOf[WebpushApplication]
       val actual = sut.index(FakeRequest())
+
+      assert(status(actual) === OK)
+    }
+  }
+
+  "WebpushApplication#subscribe" should {
+    "be not implemented yet" in {
+      val sut = app.injector.instanceOf[WebpushApplication]
+      val actual = sut.subscribe(FakeRequest())
+
+      assert(status(actual) === NOT_IMPLEMENTED)
+    }
+  }
+
+  "WebpushApplication#unsubscribe" should {
+    "be not implemented yet" in {
+      val sut = app.injector.instanceOf[WebpushApplication]
+      val actual = sut.unsubscribe(FakeRequest())
+
+      assert(status(actual) === NOT_IMPLEMENTED)
+    }
+  }
+
+  "WebpushApplication#testSubscription" should {
+    "be not implemented yet" in {
+      val sut = app.injector.instanceOf[WebpushApplication]
+      val actual = sut.testSubscription(FakeRequest())
 
       assert(status(actual) === NOT_IMPLEMENTED)
     }

@@ -17,6 +17,12 @@
 
 [[projects]]
   branch = "master"
+  name = "golang.org/x/crypto"
+  packages = ["hkdf"]
+  revision = "614d502a4dac94afa3a6ce146bd1736da82514c6"
+
+[[projects]]
+  branch = "master"
   name = "golang.org/x/net"
   packages = [
     "context",
@@ -100,6 +106,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fd9555972d69315e5c8b04c3a6b49fa1cffb07e6cfde458815c95a7229292076"
+  inputs-digest = "b1da5dc93690625a808095b596dcdcf477413ad0eaa03f44190e191a3bdf21e1"
   solver-name = "gps-cdcl"
   solver-version = 1

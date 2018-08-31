@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 option go_package = "webpush101";
+option java_package = "nokamoto.protobuf";
 
 message User {
   string id = 1;

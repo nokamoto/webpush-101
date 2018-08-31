@@ -1,12 +1,15 @@
 syntax = "proto3";
 
 option go_package = "webpush101";
+option java_package = "nokamoto.protobuf";
 
 import "google/protobuf/empty.proto";
 import "protobuf/push_subscription.proto";
 import "protobuf/user.proto";
 
-message WebpushRequest {}
+message WebpushRequest {
+  string content = 1;
+}
 
 message UserNotification {
   repeated User user = 1;
@@ -18,7 +21,13 @@ message UserSubscriptionNotification {
   WebpushRequest request = 2;
 }
 
+message PushSubscriptionNotification {
+  repeated PushSubscription subscription = 1;
+  WebpushRequest request = 2;
+}
+
 service WebpushService {
   rpc SendUserNotification(UserNotification) returns (google.protobuf.Empty);
   rpc SendUserSubscriptionNotification(UserSubscriptionNotification) returns (google.protobuf.Empty);
+  rpc SendPushSubscriptionNotification(PushSubscriptionNotification) returns (google.protobuf.Empty);
 }

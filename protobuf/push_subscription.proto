@@ -7,8 +7,8 @@ import "protobuf/user.proto";
 
 message PushSubscription {
   string endpoint = 1;
-  string p256dh = 2;
-  string auth = 3;
+  bytes p256dh = 2;
+  bytes auth = 3;
 }
 
 message UserSubscription {

@@ -34,7 +34,7 @@ func (m *WebpushRequest) Reset()         { *m = WebpushRequest{} }
 func (m *WebpushRequest) String() string { return proto.CompactTextString(m) }
 func (*WebpushRequest) ProtoMessage()    {}
 func (*WebpushRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_webpush_ef3b694ef44cf98a, []int{0}
+	return fileDescriptor_webpush_652a1afa85f306e5, []int{0}
 }
 func (m *WebpushRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_WebpushRequest.Unmarshal(m, b)
@@ -66,7 +66,7 @@ func (m *UserNotification) Reset()         { *m = UserNotification{} }
 func (m *UserNotification) String() string { return proto.CompactTextString(m) }
 func (*UserNotification) ProtoMessage()    {}
 func (*UserNotification) Descriptor() ([]byte, []int) {
-	return fileDescriptor_webpush_ef3b694ef44cf98a, []int{1}
+	return fileDescriptor_webpush_652a1afa85f306e5, []int{1}
 }
 func (m *UserNotification) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UserNotification.Unmarshal(m, b)
@@ -112,7 +112,7 @@ func (m *UserSubscriptionNotification) Reset()         { *m = UserSubscriptionNo
 func (m *UserSubscriptionNotification) String() string { return proto.CompactTextString(m) }
 func (*UserSubscriptionNotification) ProtoMessage()    {}
 func (*UserSubscriptionNotification) Descriptor() ([]byte, []int) {
-	return fileDescriptor_webpush_ef3b694ef44cf98a, []int{2}
+	return fileDescriptor_webpush_652a1afa85f306e5, []int{2}
 }
 func (m *UserSubscriptionNotification) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UserSubscriptionNotification.Unmarshal(m, b)
@@ -257,9 +257,9 @@ var _WebpushService_serviceDesc = grpc.ServiceDesc{
 	Metadata: "protobuf/webpush.proto",
 }
 
-func init() { proto.RegisterFile("protobuf/webpush.proto", fileDescriptor_webpush_ef3b694ef44cf98a) }
+func init() { proto.RegisterFile("protobuf/webpush.proto", fileDescriptor_webpush_652a1afa85f306e5) }
 
-var fileDescriptor_webpush_ef3b694ef44cf98a = []byte{
+var fileDescriptor_webpush_652a1afa85f306e5 = []byte{
 	// 264 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2b, 0x28, 0xca, 0x2f,
 	0xc9, 0x4f, 0x2a, 0x4d, 0xd3, 0x2f, 0x4f, 0x4d, 0x2a, 0x28, 0x2d, 0xce, 0xd0, 0x03, 0x0b, 0x48,

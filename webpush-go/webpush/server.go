@@ -21,7 +21,7 @@ func (s *server) SendPushSubscriptionNotification(_ context.Context, req *pb.Pus
 		res, err := s.client.Send(subscription, req.GetRequest())
 
 		if err != nil {
-			return nil, grpc.Errorf(codes.Unimplemented, err.Error())
+			return nil, grpc.Errorf(codes.Internal, err.Error())
 		}
 
 		if res.StatusCode != 201 {

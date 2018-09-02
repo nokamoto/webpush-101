@@ -1,5 +1,5 @@
 
-var applicationServerKey = 'BMrPL9meMLisGEIFriDzW65WRP8nJULnGbNwfsVvCDJbPGqmz5e9s7yV4tjj7+gSAn7+s0/W9oI/lscHFUZmGCo=';
+var applicationServerKey = 'BNuvjW90TpDawYyxhvK79QVyNEplaSQZOWo1CwXDmWwfya6qnyBvIx3tFvKEBetExvil4rNNRL0/ZR2WLjGEAbQ=';
 
 var serviceWorker = 'serviceworker.js';
 

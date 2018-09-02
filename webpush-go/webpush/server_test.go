@@ -3,13 +3,11 @@ package main
 import (
 	pb "github.com/nokamoto/webpush-101/webpush-go/protobuf"
 	"golang.org/x/net/context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"testing"
 )
 
 func TestServer_SendPushSubscriptionNotification_empty(t *testing.T) {
-	test(t, func(cli pb.WebpushServiceClient, ctx context.Context) {
+	test(t, func(_ string, cli pb.WebpushServiceClient, ctx context.Context) {
 		req := pb.PushSubscriptionNotification{
 			Subscription: []*pb.PushSubscription{},
 			Request:      &pb.WebpushRequest{},
@@ -23,15 +21,21 @@ func TestServer_SendPushSubscriptionNotification_empty(t *testing.T) {
 }
 
 func TestServer_SendPushSubscriptionNotification_non_empty(t *testing.T) {
-	test(t, func(cli pb.WebpushServiceClient, ctx context.Context) {
+	test(t, func(url string, cli pb.WebpushServiceClient, ctx context.Context) {
+		subscription := &pb.PushSubscription{
+			Endpoint: url,
+			P256Dh:   fdecode("BOVFfCoBB/2Sn6YZrKytKc1asM+IOXFKz6+T1NLOnrGrRXh/xJEgiJIoFBO9I6twWDAj6OYvhval8jxq8F4K0iM="),
+			Auth:     fdecode("LsUmSxGzGt+KcuczkTfFrQ=="),
+		}
+
 		req := pb.PushSubscriptionNotification{
-			Subscription: []*pb.PushSubscription{&pb.PushSubscription{}},
+			Subscription: []*pb.PushSubscription{subscription},
 			Request:      &pb.WebpushRequest{},
 		}
 		_, err := cli.SendPushSubscriptionNotification(ctx, &req)
 
-		if status.Convert(err).Code() != codes.Unimplemented {
-			t.Errorf("expected %v but actual %v", codes.Unimplemented, status.Convert(err).Code())
+		if err != nil {
+			t.Fatal(err)
 		}
 	})
 }

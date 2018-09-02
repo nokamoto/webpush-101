@@ -3,14 +3,17 @@ package main
 import (
 	"fmt"
 	pb "github.com/nokamoto/webpush-101/webpush-go/protobuf"
+	"github.com/nokamoto/webpush-101/webpush-go/webpush-lib"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"net"
+	"net/http"
+	"net/http/httptest"
 	"testing"
 	"time"
 )
 
-func withServer(t *testing.T, f func(int)) {
+func withServer(t *testing.T, f func(int, string)) {
 	lis, err := net.Listen("tcp", ":0")
 	if err != nil {
 		t.Fatalf("failed to listen: %v", err)
@@ -22,7 +25,21 @@ func withServer(t *testing.T, f func(int)) {
 	s := grpc.NewServer(opts...)
 	defer s.GracefulStop()
 
-	pb.RegisterWebpushServiceServer(s, &server{})
+	mock := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
+		rw.WriteHeader(201)
+	}))
+	defer mock.Close()
+
+	pair, err := webpushlib.NewApplicationServerKeyPairFromBase64StdEncodingKeyPair(
+		"AJFotoB4FS7IX6tbm5t0SGyISTQ6l54mMzpfYipdOD+N",
+		"BNuvjW90TpDawYyxhvK79QVyNEplaSQZOWo1CwXDmWwfya6qnyBvIx3tFvKEBetExvil4rNNRL0/ZR2WLjGEAbQ=")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	client := &webpushlib.PushServiceClient{KeyPair: pair, Client: mock.Client()}
+
+	pb.RegisterWebpushServiceServer(s, &server{client: client})
 
 	go func() {
 		if err := s.Serve(lis); err != nil {
@@ -30,10 +47,10 @@ func withServer(t *testing.T, f func(int)) {
 		}
 	}()
 
-	f(port)
+	f(port, mock.URL)
 }
 
-func withClient(t *testing.T, port int, f func(pb.WebpushServiceClient, context.Context)) {
+func withClient(t *testing.T, port int, url string, f func(string, pb.WebpushServiceClient, context.Context)) {
 	conn, err := grpc.Dial(fmt.Sprintf("localhost:%d", port), grpc.WithInsecure())
 	if err != nil {
 		t.Fatalf("did not connect: %v", err)
@@ -45,11 +62,11 @@ func withClient(t *testing.T, port int, f func(pb.WebpushServiceClient, context.
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
 
-	f(client, ctx)
+	f(url, client, ctx)
 }
 
-func test(t *testing.T, f func(pb.WebpushServiceClient, context.Context)) {
-	withServer(t, func(port int) {
-		withClient(t, port, f)
+func test(t *testing.T, f func(string, pb.WebpushServiceClient, context.Context)) {
+	withServer(t, func(port int, url string) {
+		withClient(t, port, url, f)
 	})
 }

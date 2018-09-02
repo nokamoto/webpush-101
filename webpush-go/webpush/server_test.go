@@ -3,16 +3,15 @@ package main
 import (
 	pb "github.com/nokamoto/webpush-101/webpush-go/protobuf"
 	"golang.org/x/net/context"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 	"testing"
 )
 
 func TestServer_SendPushSubscriptionNotification_empty(t *testing.T) {
-	test(t, func(_ string, cli pb.WebpushServiceClient, ctx context.Context) {
-		req := pb.PushSubscriptionNotification{
-			Subscription: []*pb.PushSubscription{},
-			Request:      &pb.WebpushRequest{},
-		}
-		_, err := cli.SendPushSubscriptionNotification(ctx, &req)
+	test(t, 201, func(url string, cli pb.WebpushServiceClient, ctx context.Context) {
+		req := &pb.PushSubscriptionNotification{}
+		_, err := cli.SendPushSubscriptionNotification(ctx, req)
 
 		if err != nil {
 			t.Error(err)
@@ -20,22 +19,48 @@ func TestServer_SendPushSubscriptionNotification_empty(t *testing.T) {
 	})
 }
 
-func TestServer_SendPushSubscriptionNotification_non_empty(t *testing.T) {
-	test(t, func(url string, cli pb.WebpushServiceClient, ctx context.Context) {
-		subscription := &pb.PushSubscription{
-			Endpoint: url,
-			P256Dh:   fdecode("BOVFfCoBB/2Sn6YZrKytKc1asM+IOXFKz6+T1NLOnrGrRXh/xJEgiJIoFBO9I6twWDAj6OYvhval8jxq8F4K0iM="),
-			Auth:     fdecode("LsUmSxGzGt+KcuczkTfFrQ=="),
-		}
-
-		req := pb.PushSubscriptionNotification{
-			Subscription: []*pb.PushSubscription{subscription},
-			Request:      &pb.WebpushRequest{},
-		}
-		_, err := cli.SendPushSubscriptionNotification(ctx, &req)
+func TestServer_SendPushSubscriptionNotification_created(t *testing.T) {
+	test(t, 201, func(url string, cli pb.WebpushServiceClient, ctx context.Context) {
+		req := testNotification(url)
+		_, err := cli.SendPushSubscriptionNotification(ctx, req)
 
 		if err != nil {
 			t.Fatal(err)
 		}
 	})
+}
+
+func checkStatusCode(mockStatus int, grpcStatus codes.Code, t *testing.T) {
+	test(t, mockStatus, func(url string, cli pb.WebpushServiceClient, ctx context.Context) {
+		req := testNotification(url)
+		_, err := cli.SendPushSubscriptionNotification(ctx, req)
+
+		if status.Convert(err).Code() != grpcStatus {
+			t.Fatalf("error expected %v but actual %v", grpcStatus, err)
+		}
+	})
+}
+
+func TestServer_SendPushSubscriptionNotification_bad_request(t *testing.T) {
+	checkStatusCode(400, codes.InvalidArgument, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_forbidden(t *testing.T) {
+	checkStatusCode(403, codes.Unauthenticated, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_not_found(t *testing.T) {
+	checkStatusCode(404, codes.InvalidArgument, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_payload_too_large(t *testing.T) {
+	checkStatusCode(413, codes.InvalidArgument, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_too_many_request(t *testing.T) {
+	checkStatusCode(429, codes.ResourceExhausted, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_internal_server_error(t *testing.T) {
+	checkStatusCode(500, codes.Unavailable, t)
 }

@@ -5,6 +5,7 @@ protoc:
 format:
 	prototool format -w protobuf
 	gofmt -w ./webpush-go/push-subscription
+	gofmt -w ./webpush-go/webpush
 	gofmt -w ./webpush-go/webpush-lib
 	cd webpush-scala/front && sbt scalafmt test:scalafmt sbt:scalafmt
 

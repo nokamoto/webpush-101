@@ -35,6 +35,27 @@ jobs:
             dep ensure -vendor-only=true &&
             go test ./webpush-go/push-subscription
 
+  "webpush-test":
+    docker:
+      - image: circleci/golang:1.10
+    working_directory: /go/src/github.com/nokamoto/webpush-101
+    steps:
+      - checkout
+      - run:
+          name: Format go - display diffs instead of rewriting files
+          command: test -z "$(gofmt -l ./webpush-go/webpush)"
+      - run:
+          name: Check coding style
+          command:
+            go get -u golang.org/x/lint/golint && 
+            golint -set_exit_status ./webpush-go/webpush
+      - run:
+          name: Run test
+          command: 
+            go get -u github.com/golang/dep/cmd/dep &&
+            dep ensure -vendor-only=true &&
+            go test ./webpush-go/webpush
+
   "webpush-lib-test":
     docker:
       - image: circleci/golang:1.10
@@ -90,5 +111,6 @@ workflows:
     jobs:
       - "protobuf"
       - "push-subscription-test"
+      - "webpush-test"
       - "webpush-lib-test"
       - "front-test"

@@ -101,7 +101,7 @@ func TestEncrypt_nonce(t *testing.T) {
 
 	sharedSecret, _ := newSharedSecret(as(), uaPublic)
 	ikm, _ := newIkm(uaPublic, as().public, authSecret, sharedSecret)
-	
+
 	nonce, err := newNonce(salt, ikm)
 	if err != nil {
 		t.Fatal(err)
@@ -161,6 +161,6 @@ func TestEncrypt(t *testing.T) {
 		t.Fatal(err)
 	}
 	if s := encode(encrypted); s != expected {
-		t.Fatalf("encrypted body expected %s but actual %s", expected, s)	
+		t.Fatalf("encrypted body expected %s but actual %s", expected, s)
 	}
 }

@@ -1,20 +1,20 @@
 package webpushlib
 
 import (
-	"encoding/binary"
-	"io"
-	"crypto/sha256"
-	"crypto/rand"
-	"errors"
-	"crypto/elliptic"
-	"crypto/cipher"
 	"crypto/aes"
+	"crypto/cipher"
+	"crypto/elliptic"
+	"crypto/rand"
+	"crypto/sha256"
+	"encoding/binary"
+	"errors"
 	"golang.org/x/crypto/hkdf"
+	"io"
 )
 
 type applicationServerKeys struct {
 	private []byte
-	public []byte
+	public  []byte
 }
 
 var curve = elliptic.P256()
@@ -53,7 +53,7 @@ func random(size int) ([]byte, error) {
 func newKeyInfo(ua, as []byte) []byte {
 	// key_info = "WebPush: info" || 0x00 || ua_public || as_public
 	prefix := []byte("WebPush: info\x00")
-	bytes := make([]byte, len(prefix) + len(ua) + len(as))
+	bytes := make([]byte, len(prefix)+len(ua)+len(as))
 	n := copy(bytes, prefix)
 	n += copy(bytes[n:], ua)
 	copy(bytes[n:], as)

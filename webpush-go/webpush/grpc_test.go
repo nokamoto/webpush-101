@@ -13,7 +13,7 @@ import (
 	"time"
 )
 
-func withServer(t *testing.T, f func(int, string)) {
+func withServer(t *testing.T, status int, f func(int, string)) {
 	lis, err := net.Listen("tcp", ":0")
 	if err != nil {
 		t.Fatalf("failed to listen: %v", err)
@@ -26,7 +26,7 @@ func withServer(t *testing.T, f func(int, string)) {
 	defer s.GracefulStop()
 
 	mock := httptest.NewServer(http.HandlerFunc(func(rw http.ResponseWriter, req *http.Request) {
-		rw.WriteHeader(201)
+		rw.WriteHeader(status)
 	}))
 	defer mock.Close()
 
@@ -65,8 +65,23 @@ func withClient(t *testing.T, port int, url string, f func(string, pb.WebpushSer
 	f(url, client, ctx)
 }
 
-func test(t *testing.T, f func(string, pb.WebpushServiceClient, context.Context)) {
-	withServer(t, func(port int, url string) {
+func test(t *testing.T, status int, f func(string, pb.WebpushServiceClient, context.Context)) {
+	withServer(t, status, func(port int, url string) {
 		withClient(t, port, url, f)
 	})
+}
+
+func testSubscription(url string) *pb.PushSubscription {
+	return &pb.PushSubscription{
+		Endpoint: url,
+		P256Dh:   fdecode("BOVFfCoBB/2Sn6YZrKytKc1asM+IOXFKz6+T1NLOnrGrRXh/xJEgiJIoFBO9I6twWDAj6OYvhval8jxq8F4K0iM="),
+		Auth:     fdecode("LsUmSxGzGt+KcuczkTfFrQ=="),
+	}
+}
+
+func testNotification(url string) *pb.PushSubscriptionNotification {
+	return &pb.PushSubscriptionNotification{
+		Subscription: []*pb.PushSubscription{testSubscription(url)},
+		Request:      &pb.WebpushRequest{},
+	}
 }

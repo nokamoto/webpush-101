@@ -42,7 +42,11 @@ func checkStatusCode(mockStatus int, grpcStatus codes.Code, t *testing.T) {
 }
 
 func TestServer_SendPushSubscriptionNotification_bad_request(t *testing.T) {
-	checkStatusCode(400, codes.InvalidArgument, t)
+	checkStatusCode(400, codes.Unknown, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_unauthorized(t *testing.T) {
+	checkStatusCode(401, codes.FailedPrecondition, t)
 }
 
 func TestServer_SendPushSubscriptionNotification_forbidden(t *testing.T) {
@@ -51,6 +55,10 @@ func TestServer_SendPushSubscriptionNotification_forbidden(t *testing.T) {
 
 func TestServer_SendPushSubscriptionNotification_not_found(t *testing.T) {
 	checkStatusCode(404, codes.InvalidArgument, t)
+}
+
+func TestServer_SendPushSubscriptionNotification_gone(t *testing.T) {
+	checkStatusCode(410, codes.InvalidArgument, t)
 }
 
 func TestServer_SendPushSubscriptionNotification_payload_too_large(t *testing.T) {

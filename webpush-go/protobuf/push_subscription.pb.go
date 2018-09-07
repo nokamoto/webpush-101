@@ -37,7 +37,7 @@ func (m *PushSubscription) Reset()         { *m = PushSubscription{} }
 func (m *PushSubscription) String() string { return proto.CompactTextString(m) }
 func (*PushSubscription) ProtoMessage()    {}
 func (*PushSubscription) Descriptor() ([]byte, []int) {
-	return fileDescriptor_push_subscription_ddcf058a20b785ab, []int{0}
+	return fileDescriptor_push_subscription_21f845c85a0b8626, []int{0}
 }
 func (m *PushSubscription) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PushSubscription.Unmarshal(m, b)
@@ -90,7 +90,7 @@ func (m *UserSubscription) Reset()         { *m = UserSubscription{} }
 func (m *UserSubscription) String() string { return proto.CompactTextString(m) }
 func (*UserSubscription) ProtoMessage()    {}
 func (*UserSubscription) Descriptor() ([]byte, []int) {
-	return fileDescriptor_push_subscription_ddcf058a20b785ab, []int{1}
+	return fileDescriptor_push_subscription_21f845c85a0b8626, []int{1}
 }
 func (m *UserSubscription) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_UserSubscription.Unmarshal(m, b)
@@ -296,10 +296,10 @@ var _PushSubscriptionService_serviceDesc = grpc.ServiceDesc{
 }
 
 func init() {
-	proto.RegisterFile("protobuf/push_subscription.proto", fileDescriptor_push_subscription_ddcf058a20b785ab)
+	proto.RegisterFile("protobuf/push_subscription.proto", fileDescriptor_push_subscription_21f845c85a0b8626)
 }
 
-var fileDescriptor_push_subscription_ddcf058a20b785ab = []byte{
+var fileDescriptor_push_subscription_21f845c85a0b8626 = []byte{
 	// 285 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x74, 0x91, 0x4d, 0x4f, 0xc2, 0x40,
 	0x10, 0x86, 0x53, 0x8a, 0x44, 0xa6, 0x1c, 0xe8, 0x9a, 0x60, 0xad, 0x07, 0x2b, 0xa7, 0x9e, 0x16,

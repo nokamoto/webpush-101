@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  "protobuf":
+  "protobuf-test":
     docker:
       - image: circleci/python:3.6.2-stretch-browsers
     steps:
@@ -109,8 +109,16 @@ workflows:
   version: 2
   build:
     jobs:
-      - "protobuf"
-      - "push-subscription-test"
-      - "webpush-test"
-      - "webpush-lib-test"
-      - "front-test"
+      - "protobuf-test"
+      - "push-subscription-test":
+          requires:
+            - "protobuf-test"
+      - "webpush-test":
+          requires:
+            - "protobuf-test"
+      - "webpush-lib-test":
+          requires:
+            - "protobuf-test"
+      - "front-test":
+          requires:
+            - "protobuf-test"

@@ -1,5 +1,6 @@
 package controllers
 
+import io.grpc.StatusRuntimeException
 import javax.inject.Inject
 import javax.inject.Singleton
 import models.PushSubscription
@@ -10,6 +11,7 @@ import play.api.mvc.AbstractController
 import play.api.mvc.Action
 import play.api.mvc.AnyContent
 import play.api.mvc.ControllerComponents
+import play.api.Logger
 
 import scala.concurrent.ExecutionContext
 import scala.util.control.NonFatal
@@ -37,7 +39,12 @@ class WebpushApplication @Inject()(webpushServiceStub: WebpushServiceStub,
         .sendPushSubscriptionNotification(m)
         .map(_ => Ok(Json.obj()))
         .recover {
+          case e: StatusRuntimeException =>
+            Logger.error(e.getStatus.toString)
+            InternalServerError(Json.obj("error" -> e.getMessage))
+
           case NonFatal(e) =>
+            Logger.error(e.getMessage)
             InternalServerError(Json.obj("error" -> e.getMessage))
         }
     }

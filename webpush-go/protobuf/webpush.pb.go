@@ -35,7 +35,7 @@ func (m *WebpushRequest) Reset()         { *m = WebpushRequest{} }
 func (m *WebpushRequest) String() string { return proto.CompactTextString(m) }
 func (*WebpushRequest) ProtoMessage()    {}
 func (*WebpushRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_webpush_2c7099b6830638cf, []int{0}
+	return fileDescriptor_webpush_df7cff66462f91ce, []int{0}
 }
 func (m *WebpushRequest) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_WebpushRequest.Unmarshal(m, b)
@@ -74,7 +74,7 @@ func (m *PushSubscriptionNotification) Reset()         { *m = PushSubscriptionNo
 func (m *PushSubscriptionNotification) String() string { return proto.CompactTextString(m) }
 func (*PushSubscriptionNotification) ProtoMessage()    {}
 func (*PushSubscriptionNotification) Descriptor() ([]byte, []int) {
-	return fileDescriptor_webpush_2c7099b6830638cf, []int{1}
+	return fileDescriptor_webpush_df7cff66462f91ce, []int{1}
 }
 func (m *PushSubscriptionNotification) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_PushSubscriptionNotification.Unmarshal(m, b)
@@ -185,9 +185,9 @@ var _WebpushService_serviceDesc = grpc.ServiceDesc{
 	Metadata: "protobuf/webpush.proto",
 }
 
-func init() { proto.RegisterFile("protobuf/webpush.proto", fileDescriptor_webpush_2c7099b6830638cf) }
+func init() { proto.RegisterFile("protobuf/webpush.proto", fileDescriptor_webpush_df7cff66462f91ce) }
 
-var fileDescriptor_webpush_2c7099b6830638cf = []byte{
+var fileDescriptor_webpush_df7cff66462f91ce = []byte{
 	// 245 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x12, 0x2b, 0x28, 0xca, 0x2f,
 	0xc9, 0x4f, 0x2a, 0x4d, 0xd3, 0x2f, 0x4f, 0x4d, 0x2a, 0x28, 0x2d, 0xce, 0xd0, 0x03, 0x0b, 0x48,

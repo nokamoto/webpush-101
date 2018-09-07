@@ -1,5 +1,7 @@
 scalaVersion := "2.12.6"
 
+version := "0.0.0"
+
 enablePlugins(PlayScala)
 
 PB.protoSources in Compile := (file("../../protobuf").getCanonicalFile * AllPassFilter).get

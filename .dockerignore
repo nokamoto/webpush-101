@@ -1,0 +1,5 @@
+./webpush-scala/front/.idea
+./webpush-scala/front/project/target
+./webpush-scala/front/target
+./vendor
+./.git

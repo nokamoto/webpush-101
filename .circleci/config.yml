@@ -104,6 +104,17 @@ jobs:
             - "~/.ivy2/cache"
             - "~/.sbt"
             - "~/.m2"
+  "build":
+    docker:
+      - image: docker:18.06.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 18.06.0-ce
+          # docker_layer_caching: true # https://circleci.com/docs/2.0/docker-layer-caching/
+      - run:
+          name: Build docker images
+          command: ./docker-build.sh
 
 workflows:
   version: 2
@@ -122,3 +133,9 @@ workflows:
       - "front-test":
           requires:
             - "protobuf-test"
+      - "build":
+          requires:
+            - "push-subscription-test"
+            - "webpush-test"
+            - "webpush-lib-test"
+            - "front-test"

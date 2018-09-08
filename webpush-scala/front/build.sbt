@@ -1,6 +1,6 @@
 scalaVersion := "2.12.6"
 
-version := "0.0.0"
+version := IO.readLines(file("../../VERSION")).head
 
 enablePlugins(PlayScala)
 
@@ -25,3 +25,7 @@ libraryDependencies ++= Seq(
   "io.grpc" % "grpc-netty" % scalapb.compiler.Version.grpcJavaVersion,
   "com.thesamet.scalapb" %% "scalapb-runtime-grpc" % scalapb.compiler.Version.scalapbVersion
 )
+
+sources in (Compile, doc) := Seq.empty
+
+publishArtifact in (Compile, packageDoc) := false

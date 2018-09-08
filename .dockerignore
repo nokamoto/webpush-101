@@ -1,5 +1,6 @@
 ./webpush-scala/front/.idea
 ./webpush-scala/front/project/target
 ./webpush-scala/front/target
+!./webpush-scala/front/target/universal/front-*.tgz
 ./vendor
 ./.git

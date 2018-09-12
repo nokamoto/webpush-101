@@ -16,6 +16,9 @@ RUN go install ./webpush-go/webpush
 
 FROM alpine:3.8
 
+RUN apk update
+RUN apk add --no-cache ca-certificates
+
 COPY --from=build /go/bin/webpush /usr/local/bin/webpush
 
 ENV GRPC_PORT=8000

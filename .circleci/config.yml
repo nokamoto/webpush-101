@@ -127,7 +127,9 @@ jobs:
           key: front-universal-{{ .Revision }}
       - run:
           name: Build docker images
-          command: ./docker-build.sh --no-sbt-package
+          command: |
+            docker login -u $DOCKER_USER -p $DOCKER_PASS
+            ./docker-build.sh --no-sbt-package
 
 workflows:
   version: 2

@@ -27,7 +27,7 @@ func main() {
 	opts := []grpc.ServerOption{}
 	s := grpc.NewServer(opts...)
 
-	pb.RegisterPushSubscriptionServiceServer(s, &server{})
+	pb.RegisterPushSubscriptionServiceServer(s, newServer())
 
 	reflection.Register(s)
 

@@ -5,6 +5,11 @@ services:
     command: -p 9090 -priv AJFotoB4FS7IX6tbm5t0SGyISTQ6l54mMzpfYipdOD+N -pub BNuvjW90TpDawYyxhvK79QVyNEplaSQZOWo1CwXDmWwfya6qnyBvIx3tFvKEBetExvil4rNNRL0/ZR2WLjGEAbQ=
     expose:
       - "9090"
+  push-subscription:
+    image: nokamoto13/webpush-101.go.push-subscription:0.0.0
+    command: -p 9091
+    expose:
+      - "9091"
   front:
     image: nokamoto13/webpush-101.scala.front:0.0.0
     command: -Dconfig.file=/application.conf
@@ -12,5 +17,6 @@ services:
       - "./docker/front/application.conf:/application.conf"
     depends_on:
       - webpush
+      - push-subscription
     ports:
       - "9000:9000"

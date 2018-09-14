@@ -7,6 +7,7 @@ cd `dirname $0`
 VERSION=`cat VERSION | tr -d '\n'`
 
 time docker build -t nokamoto13/webpush-101.go.webpush:${VERSION} -f docker/webpush/Dockerfile .
+time docker build -t nokamoto13/webpush-101.go.push-subscription:${VERSION} -f docker/push-subscription/Dockerfile .
 
 if [ "$1" = "--no-sbt-package" ]
 then
@@ -18,5 +19,5 @@ fi
 time docker build -t nokamoto13/webpush-101.scala.front:${VERSION} -f docker/front/Dockerfile --build-arg VERSION=${VERSION} .
 
 docker push nokamoto13/webpush-101.go.webpush:${VERSION}
-
+docker push nokamoto13/webpush-101.go.push-subscription:${VERSION}
 docker push nokamoto13/webpush-101.scala.front:${VERSION}

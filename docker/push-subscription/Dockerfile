@@ -19,7 +19,7 @@ FROM alpine:3.8
 RUN apk update
 RUN apk add --no-cache ca-certificates
 
-COPY --from=build /go/bin/push-subscription /usr/local/bin/puhs-subscription
+COPY --from=build /go/bin/push-subscription /usr/local/bin/push-subscription
 
 ENV GRPC_PORT=8000
 

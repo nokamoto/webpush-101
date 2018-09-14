@@ -22,7 +22,7 @@ func withServer(t *testing.T, f func(int)) {
 	s := grpc.NewServer(opts...)
 	defer s.GracefulStop()
 
-	pb.RegisterPushSubscriptionServiceServer(s, &server{})
+	pb.RegisterPushSubscriptionServiceServer(s, newServer())
 
 	go func() {
 		if err := s.Serve(lis); err != nil {

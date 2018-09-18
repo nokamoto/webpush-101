@@ -8,6 +8,7 @@ format:
 	gofmt -w ./webpush-go/webpush
 	gofmt -w ./webpush-go/webpush-lib
 	cd webpush-scala/front && sbt scalafmt test:scalafmt sbt:scalafmt
+	cd webpush-scala/webpush && sbt scalafmt test:scalafmt sbt:scalafmt
 
 vapid-new:
 	openssl ecparam -name prime256v1 -genkey -noout -out vapid_private.pem

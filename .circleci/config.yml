@@ -111,6 +111,41 @@ jobs:
           key: front-universal-{{ .Revision }}
           paths:
             - "webpush-scala/front/target/universal"
+
+  "webpush-scala-test":
+    docker:
+      - image: openjdk:8
+    steps:
+      - restore_cache:
+          key: sbt-cache
+      - checkout
+      - run:
+          name: Get sbt
+          command: 
+            curl -Ls https://git.io/sbt > ./sbt && 
+            chmod 0755 ./sbt
+          working_directory: webpush-scala/webpush
+      - run:
+          name: Format scala
+          command: ./sbt scalafmt::test test:scalafmt::test sbt:scalafmt::test
+          working_directory: webpush-scala/webpush
+      - run:
+          name: Run test & package
+          command: ./sbt test universal:packageZipTarball
+          working_directory: webpush-scala/webpush
+      - save_cache:
+          key: sbt-cache-w
+          paths:
+            - "~/.ivy2/cache"
+            - "~/.sbt"
+            - "~/.m2"
+      - run:
+          name: Set VERSION
+          command: VERSION=`cat VERSION | tr -d '\n'`
+      - save_cache:
+          key: webpush-universal-{{ .Revision }}
+          paths:
+            - "webpush-scala/webpush/target/universal"
             
   "build":
     docker:
@@ -125,6 +160,8 @@ jobs:
           command: apk add bash
       - restore_cache:
           key: front-universal-{{ .Revision }}
+      - restore_cache:
+          key: webpush-universal-{{ .Revision }}
       - run:
           name: Build docker images
           command: |
@@ -148,9 +185,13 @@ workflows:
       - "front-test":
           requires:
             - "protobuf-test"
+      - "webpush-scala-test":
+          requires:
+            - "protobuf-test"
       - "build":
           requires:
             - "push-subscription-test"
             - "webpush-test"
+            - "webpush-scala-test"
             - "webpush-lib-test"
             - "front-test"

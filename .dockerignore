@@ -1,6 +1,10 @@
 ./webpush-scala/front/.idea
 ./webpush-scala/front/project/target
 ./webpush-scala/front/target
-!./webpush-scala/front/target/universal/front-*.tgz
+!./webpush-scala/front/target/universal/*.tgz
+./webpush-scala/webpush/.idea
+./webpush-scala/webpush/project/target
+./webpush-scala/webpush/target
+!./webpush-scala/webpush/target/universal/*.tgz
 ./vendor
 ./.git
